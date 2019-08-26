@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+	<!-- 定义一个resultMap,订单查询 关联 用户的 ,将整个查询的结果映射到cn.itcast.mybatis.pojo.Orders中 -->
+	<resultMap type="com.example.demo.entity.User"
+		id="listUserMap">
+
+		<!-- 数据库表user对应 pojo中的user.java -->
+		<!-- id:唯一标识 column：user信息的唯 一标识 列 property：user的唯 一标识 列所映射到user中哪个属性 result:普通标识 -->
+
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="web_username" property="web_username" />
+		<result column="mobile" property="mobile" />
+		<result column="email" property="email" />
+		<!-- 多对多映射使用 -->
+		<collection property="role" ofType="com.example.demo.entity.Role">
+			<id property="id" column="role_id" />
+			<result property="name" column="name" />
+			<result property="desc_" column="desc_" />
+		</collection>
+	</resultMap>
+	<select id="selectUserByWebUserName"
+		resultType="com.example.demo.entity.User"
+		parameterType="com.example.demo.entity.User">
+		SELECT id,
+		web_username,
+		name,
+		mobile,
+		email,
+		identity,
+		address,
+		serial_number,
+		native_place,
+		password,
+		salt,
+		openid,
+		real_name,
+		gender,
+		birthday ,
+		headimgurl ,
+		follow_time ,
+		viplevel ,
+		pass ,
+		graduation_school ,
+		certificate ,
+		professional ,
+		education ,
+		regular_time
+		,
+		entry_time ,
+		position_status ,
+		marriage ,
+		children_status ,
+		position ,
+		curriculum_vitae ,
+		emergency_contact ,
+		create_time ,
+		edit_time ,
+		status ,
+		did ,
+		nickname
+		FROM user WHERE web_username = #{web_username} AND status
+		= '0'
+	</select>
+	<select id="selectUserInfoById"
+		resultType="com.example.demo.entity.User"
+		parameterType="com.example.demo.entity.User">
+		SELECT id,
+		web_username,
+		name,
+		mobile,
+		email,
+		identity,
+		address,
+		serial_number,
+		native_place,
+		password,
+		salt,
+		openid,
+		real_name,
+		gender,
+		birthday ,
+		headimgurl ,
+		follow_time ,
+		viplevel ,
+		pass ,
+		graduation_school ,
+		certificate ,
+		professional ,
+		education ,
+		regular_time
+		,
+		entry_time ,
+		position_status ,
+		marriage ,
+		children_status ,
+		position ,
+		curriculum_vitae ,
+		emergency_contact ,
+		create_time ,
+		edit_time ,
+		status ,
+		did ,
+		nickname
+		FROM user WHERE id = #{id} AND status = '0'
+	</select>
+	<insert id="insertUserInfo" useGeneratedKeys="true"
+		keyProperty="id" parameterType="com.example.demo.entity.User">
+		INSERT INTO user ( web_username,
+		password,
+		address,
+		mobile,
+		email,
+		salt,
+		status
+		) VALUES (
+		#{web_username},
+		#{password},
+		#{address},
+		#{mobile},
+		#{email},
+		#{salt},
+		'0'
+		)
+
+	</insert>
+	<!-- 查询用户，角色 -->
+	<select id="selectUserList" resultMap="listUserMap">
+			select * from user a    left join user_role b  on a.id = b.uid
+									left join role c on c.id = b.rid
+	</select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PermissionMapper">
+  <select id="selectPermissionsByUserId" resultType="String" parameterType="com.example.demo.entity.Role">
+  		SELECT
+			name 
+		FROM
+		role_permission AS b
+		LEFT JOIN 	permission AS a  on a.id = b.pid 
+		WHERE
+			b.rid = #{id}
+  </select>
+   <select id="selectPermissionByUser" resultType="com.example.demo.entity.Permission" parameterType="com.example.demo.entity.Role">
+  		SELECT
+			a.id,
+			a.type,
+			a.name,
+			a.desc_,
+			a.url,
+			a.pid,
+			a.menu_type,
+			a.create_time,
+			a.edit_time,
+			a.status
+		FROM
+		role_permission AS b
+		LEFT JOIN 	permission AS a  on a.id = b.pid 
+		WHERE
+			b.rid = #{id}
+  </select>
+	
+</mapper>
