@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
-
+//shiro加密哈希散列
 public class HashSatlUtil {
 	public static Map<String, Object> HashSaltUtil(String method,String pass,int times){
 		Map<String, Object> map = new HashMap<>();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.runner.ReactiveWebApplicationContextRunner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +34,8 @@ import com.example.demo.service.ButtonService;
 import com.example.demo.service.PermissionService;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
+import com.example.demo.util.RandomUtil;
+import com.example.demo.util.SendSMSUtil;
 
 @Controller
 @RequestMapping("/user")
@@ -140,6 +144,37 @@ public class UserController {
 		model.addAttribute("users",users);
         return "power/user";
     }
+	
+	@RequestMapping("/sendMessage")
+	public void sendMessage() {
+		SendSMSUtil ssu = new SendSMSUtil();
+		String result = RandomUtil.createRandomInt(6);
+		ssu.sendTemplateSingleSMS("86","15834260040", result);
+		System.out.println("完成");
+    }
+	@RequestMapping("/sendSingleMessage")
+	public void sendSingleMessage() {
+		SendSMSUtil ssu = new SendSMSUtil();
+		String result = RandomUtil.createRandomInt(6);
+		ssu.sendSingleSMS("86","15834260040",result);
+		System.out.println("完成");
+    }
+	@RequestMapping("/sendVoiceVerificationCode")
+	public void sendVoiceVerificationCode() {
+		SendSMSUtil ssu = new SendSMSUtil();
+		String result = RandomUtil.createRandomInt(6);
+		ssu.sendVoiceVerificationCode("86","15834260040", result);
+		System.out.println("验证码："+createRandomString());
+    }
+	public String createRandomString() {
+		String result = RandomUtil.createRandomInt(6);
+		return result;
+    }
+	
+	
+	
+	
 
+	
 
 }

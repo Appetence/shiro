@@ -42,7 +42,7 @@ public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher {
             retryCount = new AtomicInteger(0);
             lgoinRetryCache.put(username, retryCount);
         }
-        if (retryCount.incrementAndGet() > 3) {
+        if (retryCount.incrementAndGet() > 1) {
             log.warn("username: " + username + " tried to login more than 5 times in period");
             throw new ExcessiveAttemptsException("username: " + username + " tried to login more than 5 times in period"
             );

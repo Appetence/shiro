@@ -30,6 +30,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.example.demo.shiro.reaml.WebDatabaseRealm;
 
+import net.sf.ehcache.CacheManager;
+
 /**
 * @Author: Zhaojiatao
 * @Description: Shiro配置类
@@ -71,7 +73,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/testlogin", "anon");
         filterChainDefinitionMap.put("/user/register", "anon");
         filterChainDefinitionMap.put("/drawImage", "anon");
-
+        filterChainDefinitionMap.put("/user/sendMessage", "anon");
+        filterChainDefinitionMap.put("/user/sendVoiceVerificationCode", "anon");
+        filterChainDefinitionMap.put("/user/sendSingleMessage", "anon");
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
 
@@ -265,16 +269,27 @@ public class ShiroConfig {
      }
      //缓存
      /**
-      * 缓存管理器
+      * 缓存管理器		shiro
       * @return
-      */
+      
      @Bean
      public EhCacheManager ehCacheManager(){
          EhCacheManager cacheManager = new EhCacheManager();
          cacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
          return cacheManager;
+     }*/
+     @Bean
+     public EhCacheManager ehCacheManager() {
+         EhCacheManager em = new EhCacheManager();
+         CacheManager cacheManager = CacheManager.getCacheManager("classpath:ehcache.xml");
+         //em.setCacheManagerConfigFile("classpath:ehcache.xml");
+         //注意myEhcache对应上面的<ehcache name="myEhcache">
+         if(cacheManager == null){
+             cacheManager = CacheManager.create();
+         }
+         em.setCacheManager(cacheManager);
+         return em;
      }
-
      /**
       * aop代理
       * @return
